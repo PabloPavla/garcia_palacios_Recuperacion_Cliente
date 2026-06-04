@@ -16,11 +16,9 @@ La aplicación consume en tiempo real la API de **Watchmode**.
    * Exploración del catálogo completo mediante un componente de paginación eficiente con navegación interactiva.
 4. **Detalle de Títulos**: 
    * Ficha técnica detallada que incluye: sinopsis, año de estreno, tipo (película/serie), duración, valoración global de usuarios, etiquetas de géneros, tráiler insertado de YouTube (o enlace alternativo) y el póster del título.
-5. **Dónde Verla (Streaming en España)**: 
-   * Filtra y agrupa las plataformas donde ver cada contenido clasificándolas por tipo de acceso: Suscripción (suscripción mensual), Gratis, Alquilar, Comprar o Addon.
-6. **Gestión de Plataformas**: 
+5. **Gestión de Plataformas**: 
    * El usuario puede seleccionar qué plataformas de streaming tiene contratadas para personalizar su experiencia. Se guardan localmente en el navegador.
-7. **Lista de Favoritos**: 
+6. **Lista de Favoritos**: 
    * Permite guardar títulos como favoritos, gestionando la lista en `localStorage` y cargando sus detalles de forma ultra rápida y paralela en la interfaz de favoritos.
 
 ---
