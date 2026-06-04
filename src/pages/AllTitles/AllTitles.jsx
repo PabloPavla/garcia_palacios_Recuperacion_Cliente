@@ -12,6 +12,13 @@ import usePagination from '../../hooks/usePagination';
 import GetMediaCard from '../../components/GetMediaCard/GetMediaCard';
 import './AllTitles.css';
 
+/**
+ * Componente de página AllTitles.
+ * Muestra una vista de catálogo de títulos paginada utilizando el hook usePagination.
+ *
+ * @component
+ * @returns {JSX.Element} Vista del catálogo completo
+ */
 function AllTitles() {
   const {
     items,

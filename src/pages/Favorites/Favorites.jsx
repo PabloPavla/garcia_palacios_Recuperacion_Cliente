@@ -13,6 +13,14 @@ import useFavorites from '../../hooks/useFavorites';
 import GetMediaCard from '../../components/GetMediaCard/GetMediaCard';
 import './Favorites.css';
 
+/**
+ * Componente de página Favorites.
+ * Lista todos los títulos que han sido guardados como favoritos en localStorage
+ * y realiza consultas en paralelo usando react-query para obtener sus detalles.
+ *
+ * @component
+ * @returns {JSX.Element} Vista del listado de favoritos
+ */
 function Favorites() {
   const { favorites, favoritesCount } = useFavorites();
 

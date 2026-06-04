@@ -13,6 +13,14 @@ import { getSources } from '../../api/watchmode';
 import { usePlatforms } from '../../context/PlatformContext';
 import './MyPlatforms.css';
 
+/**
+ * Componente de página MyPlatforms.
+ * Muestra la lista de plataformas disponibles en España y permite al usuario
+ * seleccionar o deseleccionar plataformas sincronizándolas con el Contexto y localStorage.
+ *
+ * @component
+ * @returns {JSX.Element} Vista de selección de plataformas
+ */
 function MyPlatforms() {
   const { platforms, setPlatforms } = usePlatforms();
 

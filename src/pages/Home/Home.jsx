@@ -13,6 +13,13 @@ import { searchTitles, getTrendingTitles } from '../../api/watchmode';
 import GetMediaCard from '../../components/GetMediaCard/GetMediaCard';
 import './Home.css';
 
+/**
+ * Componente de página Home.
+ * Renderiza el buscador de títulos y la lista de títulos populares en tendencia.
+ *
+ * @component
+ * @returns {JSX.Element} Vista principal de la aplicación
+ */
 function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchTerm, setSearchTerm] = useState('');

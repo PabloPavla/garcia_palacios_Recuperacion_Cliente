@@ -21,7 +21,7 @@
  *   image="https://cdn.watchmode.com/posters/123.jpg"
  * />
  */
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useFavorites from '../../hooks/useFavorites';
 import './GetMediaCard.css';
 
@@ -42,55 +42,65 @@ function formatType(type) {
   return types[type] || type;
 }
 
+/**
+ * Componente GetMediaCard para mostrar un título.
+ *
+ * @param {Object} props
+ * @param {number} props.id - ID del título en Watchmode
+ * @param {string} props.title - Nombre del título
+ * @param {number} props.year - Año de estreno
+ * @param {string} props.type - Tipo de título
+ * @param {string} props.image - URL de la imagen
+ * @returns {JSX.Element}
+ */
 function GetMediaCard({ id, title, year, type, image }) {
-  const navigate = useNavigate();
   const { toggleFavorite, isFavorite } = useFavorites();
 
   const favorite = isFavorite(id);
 
   /**
-   * Navega a la página de detalles del título.
-   */
-  const handleClick = () => {
-    navigate(`/details/${id}`);
-  };
-
-  /**
    * Alterna el estado de favorito del título.
-   * Detiene la propagación para no activar la navegación.
    *
    * @param {React.MouseEvent} e - Evento del click
    */
   const handleFavorite = (e) => {
-    e.stopPropagation();
+    e.preventDefault();
     toggleFavorite(id);
   };
 
   return (
-    <article className="media-card" onClick={handleClick}>
-      <div className="media-card__image-wrapper">
-        {image ? (
-          <img
-            src={image}
-            alt={`Póster de ${title}`}
-            className="media-card__image"
-            loading="lazy"
-          />
-        ) : (
-          <div className="media-card__no-image">🎬</div>
-        )}
-        <span className="media-card__type">{formatType(type)}</span>
-        <button
-          className={`media-card__fav-btn ${favorite ? 'media-card__fav-btn--active' : ''}`}
-          onClick={handleFavorite}
-          aria-label={favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
-          title={favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
-        >
-          {favorite ? '❤️' : '🤍'}
-        </button>
-      </div>
+    <article className="media-card">
+      <Link to={`/details/${id}`} className="media-card__link-wrapper" aria-label={`Detalles de ${title}`}>
+        <div className="media-card__image-wrapper">
+          {image ? (
+            <img
+              src={image}
+              alt={`Póster de ${title}`}
+              className="media-card__image"
+              loading="lazy"
+            />
+          ) : (
+            <div className="media-card__no-image">🎬</div>
+          )}
+          <span className="media-card__type">{formatType(type)}</span>
+        </div>
+      </Link>
+
+      <button
+        className={`media-card__fav-btn ${favorite ? 'media-card__fav-btn--active' : ''}`}
+        onClick={handleFavorite}
+        aria-label={favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+        title={favorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+      >
+        {favorite ? '❤️' : '🤍'}
+      </button>
+
       <div className="media-card__info">
-        <h3 className="media-card__title">{title}</h3>
+        <h3 className="media-card__title">
+          <Link to={`/details/${id}`} className="media-card__title-link">
+            {title}
+          </Link>
+        </h3>
         {year && <span className="media-card__year">{year}</span>}
       </div>
     </article>
