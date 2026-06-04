@@ -1,13 +1,14 @@
 /**
- * @fileoverview Custom hook useFavorites.
- * Gestiona los favoritos del usuario usando localStorage.
- * Persiste los datos entre sesiones del navegador.
+ * @fileoverview Context de favoritos.
+ * Gestiona los favoritos del usuario usando localStorage
+ * y comparte el estado entre todos los componentes mediante Context.
  *
- * @module useFavorites
+ * @module FavoritesContext
  */
-import { useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const STORAGE_KEY = 'watchmode_favorites';
+const FavoritesContext = createContext();
 
 /**
  * Lee los favoritos almacenados en localStorage.
@@ -33,25 +34,14 @@ function saveFavorites(favorites) {
 }
 
 /**
- * Hook personalizado para gestionar los favoritos del usuario.
- * Los favoritos se almacenan en localStorage y se sincronizan
- * automáticamente con el estado de React.
+ * Provider que envuelve la app y gestiona el estado global de favoritos.
+ * Sincroniza automáticamente con localStorage.
  *
- * @returns {Object} Estado y métodos de favoritos
- * @returns {Array<number>} return.favorites - Lista de IDs de títulos favoritos
- * @returns {Function} return.addFavorite - Añade un ID a favoritos
- * @returns {Function} return.removeFavorite - Quita un ID de favoritos
- * @returns {Function} return.toggleFavorite - Alterna un ID en favoritos
- * @returns {Function} return.isFavorite - Comprueba si un ID está en favoritos
- * @returns {number} return.favoritesCount - Número total de favoritos
- *
- * @example
- * const { favorites, toggleFavorite, isFavorite } = useFavorites();
- * <button onClick={() => toggleFavorite(123)}>
- *   {isFavorite(123) ? '❤️' : '🤍'}
- * </button>
+ * @param {Object} props
+ * @param {React.ReactNode} props.children - Componentes hijos
+ * @returns {JSX.Element}
  */
-function useFavorites() {
+export function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(loadFavorites);
 
   /** Sincroniza el estado con localStorage cada vez que cambia */
@@ -106,7 +96,7 @@ function useFavorites() {
     [favorites]
   );
 
-  return {
+  const value = {
     favorites,
     addFavorite,
     removeFavorite,
@@ -114,6 +104,35 @@ function useFavorites() {
     isFavorite,
     favoritesCount: favorites.length,
   };
+
+  return (
+    <FavoritesContext.Provider value={value}>
+      {children}
+    </FavoritesContext.Provider>
+  );
+}
+
+/**
+ * Hook para acceder al context de favoritos.
+ * Debe usarse dentro de un FavoritesProvider.
+ *
+ * @returns {Object} Estado y métodos de favoritos
+ * @returns {Array<number>} return.favorites - Lista de IDs de títulos favoritos
+ * @returns {Function} return.addFavorite - Añade un ID a favoritos
+ * @returns {Function} return.removeFavorite - Quita un ID de favoritos
+ * @returns {Function} return.toggleFavorite - Alterna un ID en favoritos
+ * @returns {Function} return.isFavorite - Comprueba si un ID está en favoritos
+ * @returns {number} return.favoritesCount - Número total de favoritos
+ *
+ * @example
+ * const { favorites, toggleFavorite, isFavorite } = useFavorites();
+ */
+function useFavorites() {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error('useFavorites debe usarse dentro de un FavoritesProvider');
+  }
+  return context;
 }
 
 export default useFavorites;

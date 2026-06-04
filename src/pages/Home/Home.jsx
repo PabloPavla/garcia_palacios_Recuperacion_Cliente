@@ -65,7 +65,7 @@ function Home() {
     setSearchTerm('');
   };
 
-  const searchResults = searchData?.title_results || [];
+  const searchResults = searchData?.results || [];
   const trendingTitles = trendingData?.titles || [];
   const isSearching = searchTerm.length > 0;
 

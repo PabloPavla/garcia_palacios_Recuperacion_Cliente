@@ -61,12 +61,12 @@ export async function getListTitles(params = {}) {
  *
  * @param {string} query - Texto de búsqueda
  * @param {string} [searchType=''] - Tipo de búsqueda: 1 (movie), 2 (tv), 3 (movie & tv)
- * @returns {Promise<Object>} Objeto con title_results (array de coincidencias)
+ * @returns {Promise<Object>} Objeto con results (array de coincidencias)
  */
 export async function searchTitles(query, searchType = '') {
   return fetchFromApi('/autocomplete-search/', {
     search_value: query,
-    search_type: searchType || '1,2',
+    search_type: searchType || undefined,
   });
 }
 

@@ -9,6 +9,7 @@
  */
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PlatformProvider } from './context/PlatformContext';
+import { FavoritesProvider } from './hooks/useFavorites';
 import AppRouter from './router/AppRouter';
 import './App.css';
 
@@ -31,7 +32,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <PlatformProvider>
-        <AppRouter />
+        <FavoritesProvider>
+          <AppRouter />
+        </FavoritesProvider>
       </PlatformProvider>
     </QueryClientProvider>
   );
