@@ -7,8 +7,9 @@
  * @component
  * @returns {JSX.Element}
  */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { searchTitles, getTrendingTitles } from '../../api/watchmode';
 import GetMediaCard from '../../components/GetMediaCard/GetMediaCard';
 import './Home.css';
@@ -21,8 +22,17 @@ import './Home.css';
  * @returns {JSX.Element} Vista principal de la aplicación
  */
 function Home() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get('q') || '';
+  const [searchQuery, setSearchQuery] = useState(searchTerm);
+
+  /**
+   * Sincroniza el valor del input de búsqueda con el parámetro de la URL.
+   * Esto es útil cuando el usuario navega hacia atrás en el historial.
+   */
+  useEffect(() => {
+    setSearchQuery(searchTerm);
+  }, [searchTerm]);
 
   /**
    * Query para títulos trending/populares.
@@ -53,23 +63,23 @@ function Home() {
 
   /**
    * Maneja el envío del formulario de búsqueda.
-   * Actualiza el término de búsqueda para disparar la query.
+   * Actualiza el parámetro 'q' de la URL para disparar la query.
    *
    * @param {React.FormEvent} e - Evento del formulario
    */
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      setSearchTerm(searchQuery.trim());
+      setSearchParams({ q: searchQuery.trim() });
     }
   };
 
   /**
-   * Limpia la búsqueda y vuelve a mostrar trending.
+   * Limpia la búsqueda de la URL y restablece el input.
    */
   const clearSearch = () => {
     setSearchQuery('');
-    setSearchTerm('');
+    setSearchParams({});
   };
 
   const searchResults = searchData?.results || [];
