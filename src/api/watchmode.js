@@ -107,10 +107,9 @@ export async function getSources(regions = 'ES') {
 /**
  * Obtiene los títulos en tendencia / populares.
  *
- * @param {string} [listType=''] - Tipo de lista 
  * @returns {Promise<Object>} Objeto con los títulos populares
  */
-export async function getTrendingTitles(listType = '') {
+export async function getTrendingTitles() {
   return fetchFromApi('/list-titles/', {
     sort_by: 'popularity_desc',
     types: 'movie,tv_series',

@@ -27,7 +27,6 @@ function AllTitles() {
     totalResults,
     nextPage,
     prevPage,
-    goToPage,
     isLoading,
     isError,
     error,
